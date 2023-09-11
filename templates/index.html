@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Project Information</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Project Information</h1>
+    <form id="projectForm">
+        <label for="project_name">Enter Project Name:</label>
+        <select name= project_name method="POST"  id="project_name">
+               {% for unique in unique_list %}
+                   <option value= "{{unique}}" SELECTED>{{unique}}</option>"
+               {% endfor %}
+<!--        <button type="submit">Get Project Details</button>-->
+            <input type="submit" value="Get Project Details"  >
+    </form>
+
+    <div id="projectDetails">
+        <!-- Project details will be displayed here -->
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#projectForm').submit(function(event) {
+                event.preventDefault();
+                var projectName = $('#project_name').val();
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/get_project_details',
+                    data: { project_name: projectName },
+                    success: function(response) {
+                        if (response.error) {
+                            $('#projectDetails').html('<p>' + response.error + '</p>');
+                        } else {
+                            var projectDetails = response.project_details;
+                            var html = '<h2>Project Details</h2>';
+                            html += '<table border="1"><tr><th>Developer</th><th>Task</th><th>Status</th><th>Action</th></tr>';
+                            for (var i = 0; i < projectDetails.length; i++) {
+                                html += '<tr>';
+                                html += '<td>' + projectDetails[i]['Developer'] + '</td>';
+                                html += '<td>' + projectDetails[i]['Task'] + '</td>';
+                                html += '<td>' + projectDetails[i]['Status'] + '</td>';
+                                html += '<td><button class="edit-button" data-project="' + projectDetails[i]['Project Name'] + '" data-developer="' + projectDetails[i]['Developer'] + '">Edit</button></td>';
+                                html += '</tr>';
+                            }
+                            html += '</table>';
+                            $('#projectDetails').html(html);
+
+                            // Add click event for the "Edit" button
+                            $('.edit-button').click(function() {
+                                var project = $(this).data('project');
+                                var developer = $(this).data('developer');
+                                window.location.href = '/update_project?project_name=' + project + '&developer=' + developer;
+                            });
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

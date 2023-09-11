@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update Project</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+<body>
+    <h1>Update Project Details</h1>
+    <form method="POST">
+        <input type="hidden" name="project_name" value="{{ project_name }}">
+        <input type="hidden" name="developer" value="{{ developer }}">
+        <label for="task">Task:</label>
+        <input type="text" id="task" name="task" ><br>
+        <label for="status">Status:</label>
+<!--        <input type="text" id="status" name="status" required>-->
+        <select name= status   id="status">
+            <option value= "Not started" SELECTED>Not started</option>"
+            <option value= "On going " SELECTED>On going </option>"
+            <option value= "Completed" SELECTED>Completed</option>"
+<!--        <button type="submit">Update</button>-->
+            <input type="submit" value="Update"  >
+    </form>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<html>
+  <head>
+      <title>
+          employee details
+      </title>
+  </head>
+   <body>
+      <table border="1">
+           <thead>
+              <th> Employee</th>
+              <th>  Status </th>
+           </thead>
+           {% for employee in details_dict %}
+            <tr>
+               <td> {{ employee['employee_name'] }} </td>
+               <td> {{ employee['Status'] }} </td>
+            </tr>
+           {% endfor %}
+
+       </table>
+   </body>
+</html>
